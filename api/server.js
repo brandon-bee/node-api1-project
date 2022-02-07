@@ -58,4 +58,25 @@ server.get('/api/users/:id', (req, res) => {
     });
 });
 
+server.delete('/api/users/:id', (req, res) => {
+  const { id } = req.params;
+  model.remove(id)
+    .then(user => {
+      if (!user) {
+        res.status(404).json({
+          message: "The user with the specified ID does not exist"
+        });
+      } else {
+        res.status(200).json(user);
+      }
+    })
+    .catch(() => {
+      res.status(500).json({
+        message: "The user could not be removed"
+      });
+    });
+});
+
+
+
 module.exports = server; // EXPORT YOUR SERVER instead of {}
